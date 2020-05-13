@@ -18,10 +18,9 @@ public class trolley : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var m_position_z = this.GetComponent<Transform>().position.z;
-
         
-        if (m_position_z <= 17.2 && m_position_z >= 0)
+        float m_position_y = gameObject.transform.localPosition.y;
+        if (m_position_y >= -17.2 && m_position_y <= 0)
         {
             if (Input.GetKey(KeyCode.DownArrow))
             {
@@ -31,13 +30,13 @@ public class trolley : MonoBehaviour
             {
                 this.transform.Translate(0, -MOVE_SPEED * Time.deltaTime, 0);
             }
-        }else if (m_position_z >= 17.2f)
+        }else if (m_position_y <= -17.2f)
         {
             if (Input.GetKey(KeyCode.DownArrow))
             {
                 this.transform.Translate(0, MOVE_SPEED * Time.deltaTime, 0);
             }
-        }else if(m_position_z <= 0)
+        }else if(m_position_y >= 0)
         {
             if (Input.GetKey(KeyCode.UpArrow))
             {

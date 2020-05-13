@@ -11,7 +11,6 @@ public class FlyingHook : MonoBehaviour
     ConfigurableJoint m_JointForObject;
     [SerializeField] GameObject m_Jointbody;
     [SerializeField] LineRenderer m_Cable;
-    [SerializeField] LineRenderer m_line2hook;
     [SerializeField] Transform m_hook;
     [SerializeField] Transform m_trolley;
 
@@ -20,8 +19,7 @@ public class FlyingHook : MonoBehaviour
     void Start()
     {
        
-        m_line2hook.SetPosition(0, m_trolley.position); // 本身東西的位置
-        m_line2hook.SetPosition(1, m_hook.position); // 吊的東西的位置
+
 
 
     }
@@ -29,13 +27,36 @@ public class FlyingHook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.Q))
+        float pos_z = gameObject.transform.localPosition.z;
+
+        if(pos_z <= 0 && pos_z >= -11.8)
         {
-            this.transform.Translate(0,0, MOVE_SPEED * Time.deltaTime);
-        }else if (Input.GetKey(KeyCode.E))
-        {
-            this.transform.Translate(0, 0, -MOVE_SPEED * Time.deltaTime);
+            if (Input.GetKey(KeyCode.Q))
+            {
+                this.transform.Translate(0, 0, MOVE_SPEED * Time.deltaTime);
+            }
+            else if (Input.GetKey(KeyCode.E))
+            {
+                this.transform.Translate(0, 0, -MOVE_SPEED * Time.deltaTime);
+            }
         }
+        else if(pos_z >= 0)
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                this.transform.Translate(0, 0, -MOVE_SPEED * Time.deltaTime);
+            }
+        }
+        else if(pos_z <= -11.8)
+        {
+            if (Input.GetKey(KeyCode.Q))
+            {
+                this.transform.Translate(0, 0, MOVE_SPEED * Time.deltaTime);
+            }
+        }
+
+
+ 
 
         if(m_JointForObject == null)
         {

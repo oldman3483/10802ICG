@@ -16,13 +16,13 @@ public class Jib : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
 
             m_HorizontalAngle += ROTATE_SPEED * Time.deltaTime;
 
 
-        }else if (Input.GetKey(KeyCode.RightArrow))
+        }else if (Input.GetKey(KeyCode.LeftArrow))
         {
             m_HorizontalAngle += -ROTATE_SPEED * Time.deltaTime;
         }
