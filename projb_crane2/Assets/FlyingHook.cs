@@ -121,12 +121,13 @@ public class FlyingHook : MonoBehaviour
         }
         else
         {
-            m_JointForObject.connectedBody.GetComponent<MeshRenderer>().material.color = Color.white;
+            m_JointForObject.connectedBody.GetComponent<MeshRenderer>().material.color = Color.blue;
             GameObject.Destroy(m_JointForObject);
             m_JointForObject = null;
         }
     }
 
+    [SerializeField] MeshRenderer m_buliding;
     void DetectObjects()
     {
         Ray ray = new Ray(this.transform.position, Vector3.down);
@@ -140,7 +141,7 @@ public class FlyingHook : MonoBehaviour
             RecoverClickedObject();
             MeshRenderer renderer = hit.collider.GetComponent<MeshRenderer>();
 
-            if (renderer != null)
+            if (renderer != null && renderer != m_buliding)
             {
                 renderer.material.color = Color.yellow;
             }
@@ -148,15 +149,16 @@ public class FlyingHook : MonoBehaviour
         }
         else
         {
+            
             RecoverClickedObject();
         }
 
     }
     void RecoverClickedObject()
     {
-        if (m_DetectedObject != null)
+        if (m_DetectedObject != null && m_DetectedObject.GetComponent<MeshRenderer>() != m_buliding)
         {
-            m_DetectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
+            m_DetectedObject.GetComponent<MeshRenderer>().material.color = Color.blue;
             m_DetectedObject = null;
         }
 
