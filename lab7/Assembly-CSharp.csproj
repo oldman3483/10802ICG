@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\EntityBehave.cs" />
+    <Compile Include="Assets\GameUI.cs" />
     <Compile Include="Assets\scripts\FreeCameraEntity.cs" />
     <Compile Include="Assets\scripts\escape\BoxEntity.cs" />
     <Compile Include="Assets\scripts\escape\DoorEntity.cs" />

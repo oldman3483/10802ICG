@@ -36,9 +36,14 @@ public class EscapeGame {
 	int m_SelectedIndex = -1;
 	Entity m_SelectedEntity = null;
 
-	Entity m_TakenEntity = null;
-	public Entity TakenEntity  { get { return m_TakenEntity; } }
 
+    List<Entity> m_TakenEntities = new List<Entity>();
+    public List<Entity> TakenEntities { get { return m_TakenEntities; } }
+
+    
+    Entity m_TakenEntity = null;
+	public Entity TakenEntity  { get { return m_TakenEntity; } }
+    
 	public EscapeGame () {
 	
 
@@ -84,6 +89,8 @@ public class EscapeGame {
             m_SelectedEntity.Deselect();
             OnEntityDeselected(m_SelectedEntity);
 
+            
+            OnMessageAdded(string.Format("<color=yellow>{0}</color> has been deselected.", m_SelectedEntity.Name));
             m_SelectedEntity = null;
         }
         if (entity != null)
@@ -92,6 +99,8 @@ public class EscapeGame {
             m_SelectedEntity.Select();
 
             OnEntitySelected(m_SelectedEntity);
+
+            OnMessageAdded(string.Format("<color=yellow>{0}</color> has been selected.", m_SelectedEntity.Name));
         }
     }
 
@@ -109,16 +118,16 @@ public class EscapeGame {
 		}
 	}
 
-	public void Interact () {
+	public void Interact (Entity entity = null) {
 
 		if (m_SelectedEntity != null) {
 
-			Debug.Log (string.Format ("Interact with item <color=white>{0}</color>", m_SelectedEntity.Name));
-			m_SelectedEntity.Interact ();
+			OnMessageAdded(string.Format ("Interact with item <color=white>{0}</color>", m_SelectedEntity.Name));
+			m_SelectedEntity.Interact (entity);
 		
 		} else {
 
-			Debug.Log ("You have to select a item first.");
+            OnMessageAdded("You have to select a item first.");
 		}
 	}
 
@@ -142,7 +151,20 @@ public class EscapeGame {
 	}
 
 	public void Take (Entity entity) {
+        if (m_SelectedEntity == entity)
+        {
+            m_SelectedEntity.Deselect();
+            m_SelectedEntity = null;
+        }
 
+        OnMessageAdded(string.Format("Take item <color=white>{0}</color>", entity.Name));
+        m_Entities.Remove(entity);  //entity 被拿走 所以rm掉
+        m_TakenEntities.Add(entity);// 拿走的加到 被拿走的物件list中
+
+        entity.Take(); //告訴那個東西 要拿它了
+        OnEntityTaken(entity);// 告訴整個事件 有個東西被拿了
+
+        /*
 		if (m_TakenEntity != null) {
 
 			Debug.Log (string.Format ("You already take item <color=white>{0}</color>", m_TakenEntity.Name));
@@ -156,10 +178,16 @@ public class EscapeGame {
 
 			Deselect ();
 		}
+        */
 	}
 
-	public void PutBack () {
-	
+	public void PutBack (Entity entity) {
+
+        OnMessageAdded(string.Format("Put item <color=white>{0}</color> back.", entity.Name));
+        m_TakenEntities.Remove(entity);
+        m_Entities.Add(entity);
+        OnEntityReleased(entity);
+        /*
 		if (m_TakenEntity != null) {
 
 			Debug.Log (string.Format ("Put item <color=white>{0}</color> back.", m_TakenEntity.Name));
@@ -170,8 +198,9 @@ public class EscapeGame {
 		} else {
 		
 			Debug.Log ("You have nothing to put back.");
-		}
-	}
+		}*/
+	
+    }
 
 	void Deselect () {
 	

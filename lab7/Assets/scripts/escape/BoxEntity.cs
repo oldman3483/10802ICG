@@ -33,7 +33,7 @@ public class BoxEntity : OpenableEntity {
 		}
 	}
 
-	public override void Interact () {
+	public override void Interact (Entity entity = null) {
 
 		if (m_Closed) {
 
@@ -44,12 +44,12 @@ public class BoxEntity : OpenableEntity {
 
 			if (m_Content == null) {
 
-				base.Interact (); 
+				base.Interact (entity); 
 
 			} else {
 
 				Debug.Log ("Something inside the box, interact with it:\n");
-				m_Content.Interact ();
+				m_Content.Interact (entity);
 			}
 		}
 	}

@@ -4,19 +4,41 @@ using UnityEngine;
 
 public class EscapeGameScene : MonoBehaviour {
 
+    [SerializeField] GameUI m_GameUI;
+
+
 	EscapeGame m_Game;
     const float SELECT_RANGE = 3;
 
+    public EscapeGame Game { get { return m_Game; } }
+
     #region Msg event handlers
-    void HandleOnMessageAdded(string message) { }
+    void HandleOnMessageAdded(string message)
+    {
+        m_GameUI.ShowMessage(message);
+    }
 
     #endregion
 
     #region Entity event handlers
-    void HandleOnEntitySelected (Entity entity) { }
-    void HandleOnEntityDeselected (Entity entity) { }
-    void HandleOnEntityTaken(Entity entity) { }
-    void HandleOnEntityReleased(Entity entity) { }
+    void HandleOnEntitySelected (Entity entity){
+        m_GameUI.SetActionVisible(true);
+    }
+    void HandleOnEntityDeselected (Entity entity) {
+        m_GameUI.SetActionVisible(false);
+    }
+    void HandleOnEntityTaken(Entity entity) {
+        m_GameUI.SetActionVisible(false);
+        m_GameUI.UpdateTakenEntities();
+    }
+    void HandleOnEntityReleased(Entity entity) {
+        m_GameUI.UpdateTakenEntities();
+
+        var entityBehav = GameObject.Instantiate(
+            Resources.Load<EntityBehave>("prefabs/entity_cube"));
+        entityBehav.transform.localPosition = entity.Position;
+        entityBehav.UpdateEntity(entity);
+    }
     void HandleOnEntityInteracted(Entity entity) { }
     void HandleOnEntityInspected(Entity entity) { }
 
@@ -57,6 +79,8 @@ public class EscapeGameScene : MonoBehaviour {
         m_Game.OnEntityReleased += HandleOnEntityReleased;
 
         m_Game.MakeGame();
+
+        
     }
 
     void DetectEntity()

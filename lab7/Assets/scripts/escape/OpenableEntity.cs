@@ -24,7 +24,7 @@ public class OpenableEntity : Entity {
 		Debug.Log ("Use the right key to open this.");
 	}
 
-	public override void Interact () {
+	public override void Interact (Entity entity) {
 
 		if (string.IsNullOrEmpty (m_KeyIdentifier)) {
 
@@ -32,7 +32,7 @@ public class OpenableEntity : Entity {
 			return;
 		}
 
-		KeyEntity key = Game.TakenEntity as KeyEntity;
+		KeyEntity key = entity as KeyEntity;
 
 		if (key != null) {
 
