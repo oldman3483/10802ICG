@@ -5,7 +5,7 @@ using UnityEngine;
 public class FreeCameraEntity : MonoBehaviour
 {
 
-    const float VELOCITY = 6f;
+    const float VELOCITY = 4f;
     Vector3 m_MousePosition;
     float m_HorizontalAngle;
     float m_VerticalAngle;
@@ -54,16 +54,6 @@ public class FreeCameraEntity : MonoBehaviour
         else if(Input.GetKey(KeyCode.S))
         {
             this.transform.Translate(0, 0, -VELOCITY * Time.deltaTime);
-
-        }
-        if (Input.GetKey(KeyCode.Z))
-        {
-            this.transform.Translate(0, VELOCITY * Time.deltaTime, 0);
-
-        }
-        else if(Input.GetKey(KeyCode.X))
-        {
-            this.transform.Translate(0, -VELOCITY * Time.deltaTime, 0);
 
         }
     }
